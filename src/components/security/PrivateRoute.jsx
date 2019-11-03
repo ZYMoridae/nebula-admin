@@ -3,8 +3,8 @@ import { Route, Redirect } from 'react-router-dom';
 
 function checkToken() {
     let token = sessionStorage.getItem('token');
-    if(token == null && token == undefined) {
-      sessionStorage.removeItem('user');
+    if (token == null && token == undefined) {
+        sessionStorage.removeItem('user');
     }
 }
 

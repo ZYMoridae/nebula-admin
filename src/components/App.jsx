@@ -1,94 +1,120 @@
-import React from 'react'
+import React from "react";
 import {
   BrowserRouter as Router,
   Route,
-  Link
-} from 'react-router-dom'
-import HeaderBarContainer from '../containers/HeaderBarContainer';
-import HomeContainer from '../containers/HomeContainer';
-import LoginContainer from '../containers/LoginContainer';
+  Switch,
+  Redirect
+} from "react-router-dom";
+import HeaderBarContainer from "../containers/HeaderBarContainer";
+import HomeContainer from "../containers/HomeContainer";
+import LoginContainer from "../containers/LoginContainer";
 
-import PrivateRoute from '../components/PrivateRoute';
+import UserContainer from "../containers/NoteContainer";
+import PrivateRoute from "./security/PrivateRoute";
+import ProductsContainer from "../containers/ProductsContainer";
+import ProductInfoContainer from "../containers/ProductInfoContainer";
+import ShoppingCartContainer from "../containers/ShoppingCartContainer";
+import PaymentContainer from "../containers/PaymentContainer";
 
-import Footer from './Footer';
+import Footer from "./Footer";
 
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+
+import Routes from "../utils/Routes";
+import { green, orange, blue } from "@material-ui/core/colors";
+import SideDrawer from "./SideDrawer";
 
 const nebulaTheme = createMuiTheme({
+  typography: {
+    useNextVariants: true
+  },
   palette: {
     primary: {
       // light: will be calculated from palette.primary.main,
-      main: '#ff5000',
-      footerDark: '#401500'
+      main: "#2b8eff",
+      // footerDark: '#401500',
+      footerDark: "#1d1d1d"
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
     },
     secondary: {
-      light: '#0066ff',
-      main: '#0044ff',
+      light: "#0066ff",
+      main: "#0044ff",
       // dark: will be calculated from palette.secondary.main,
-      contrastText: '#ffcc00',
-    },
+      contrastText: "#ffcc00"
+    }
     // error: will use the default color
-  },
+  }
 });
 
 const Home = () => (
   <div>
+    <UserContainer></UserContainer>
     <HomeContainer></HomeContainer>
   </div>
-)
+);
 
 const Login = () => (
   <div>
     <LoginContainer></LoginContainer>
   </div>
-)
+);
 
+const Products = () => {
+  let params = new URLSearchParams(window.location.search);
+  let page = 1,
+    perPage = 12,
+    orderBy = "name",
+    userPage = params.get("page"),
+    userPerPage = params.get("perPage"),
+    userOrderBy = params.get("orderBy");
 
-const About = () => (
-  <div>
-    <h2>About</h2>
-  </div>
-)
+  if (userPage != undefined) {
+    page = parseInt(userPage);
+  }
 
-const Topic = ({ match }) => (
-  <div>
-    <h3>{match.params.topicId}</h3>
-  </div>
-)
+  if (userPerPage != undefined) {
+    perPage = parseInt(userPerPage);
+  }
 
-const Topics = ({ match }) => (
-  <div>
-    <h2>Topics</h2>
-    <ul>
-      <li>
-        <Link to={`${match.url}/rendering`}>
-          Rendering with React
-        </Link>
-      </li>
-      <li>
-        <Link to={`${match.url}/components`}>
-          Components
-        </Link>
-      </li>
-      <li>
-        <Link to={`${match.url}/props-v-state`}>
-          Props v. State
-        </Link>
-      </li>
-    </ul>
+  if (userOrderBy != undefined) {
+    orderBy = userOrderBy;
+  }
 
-    <Route path={`${match.path}/:topicId`} component={Topic} />
-    <Route exact path={match.path} render={() => (
-      <h3>Please select a topic.</h3>
-    )} />
-  </div>
-)
+  return (
+    <div>
+      <ProductsContainer
+        page={page}
+        perPage={perPage}
+        orderBy={orderBy}
+      ></ProductsContainer>
+    </div>
+  );
+};
 
+const ProductInfo = ({ match }) => {
+  return (
+    <div>
+      <ProductInfoContainer productId={match.params.id}></ProductInfoContainer>
+    </div>
+  );
+};
 
+const CartInfo = () => {
+  return (
+    <div>
+      <ShoppingCartContainer></ShoppingCartContainer>
+    </div>
+  );
+};
 
-
+const PaymentComponent = ({ match }) => {
+  return (
+    <div>
+      <PaymentContainer orderId={match.params.orderId}></PaymentContainer>
+    </div>
+  );
+};
 
 class App extends React.Component {
   render() {
@@ -96,17 +122,40 @@ class App extends React.Component {
       <Router>
         <MuiThemeProvider theme={nebulaTheme}>
           <div>
-            <HeaderBarContainer></HeaderBarContainer>
+            {location.pathname !== Routes.USER.LOGIN && (
+              <HeaderBarContainer></HeaderBarContainer>
+            )}
 
-            <PrivateRoute exact path="/" component={Home} />
+            {location.pathname !== Routes.USER.LOGIN && (
+              <SideDrawer></SideDrawer>
+            )}
 
-            <Route exact path="/login" component={Login} />
+            <Switch>
+              <Route exact path="/login" component={Login} />
 
-            <Footer></Footer>
+              <PrivateRoute exact path="/home" component={Home} />
+              <PrivateRoute exact path="/products" component={Products} />
+              <PrivateRoute
+                exact
+                path="/products/:id"
+                component={ProductInfo}
+              />
+              <PrivateRoute exact path="/cart" component={CartInfo} />
+              <PrivateRoute
+                exact
+                path="/payment/:orderId"
+                component={PaymentComponent}
+              />
+
+              <Route exact path={Routes.USER.LOGIN} component={Login} />
+              <Redirect to="/login" />
+            </Switch>
+
+            {location.pathname !== Routes.USER.LOGIN && <Footer></Footer>}
           </div>
         </MuiThemeProvider>
       </Router>
-    )
+    );
   }
 }
 

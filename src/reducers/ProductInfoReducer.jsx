@@ -12,7 +12,8 @@ let initState = {
   info: "null",
   productComments: [],
   isUpdatingProduct: false,
-  isUpdatedProduct: false
+  isUpdatedProduct: false,
+  skuAttributeCategory: []
 };
 
 const productInfoReducer = (state = initState, action) => {
@@ -86,6 +87,24 @@ const productInfoReducer = (state = initState, action) => {
         isUpdatingProduct: action.isUpdatingProduct,
         isUpdatedProduct: action.isUpdatedProduct,
         info: action.info
+      });
+
+    // Fetch sku attribute category
+    case ActionType.SKU.ATTRIBUTE.CATEGORY.GET_ALL.PENDING:
+      return Object.assign({}, state, {
+        isFetchingAllSkuAttributeCategory: action.isFetchingAllSkuAttributeCategory,
+        isFetchedAllSkuAttributeCategory: action.isFetchedAllSkuAttributeCategory
+      });
+    case ActionType.SKU.ATTRIBUTE.CATEGORY.GET_ALL.ERROR:
+      return Object.assign({}, state, {
+        isFetchingAllSkuAttributeCategory: action.isFetchingAllSkuAttributeCategory,
+        isFetchedAllSkuAttributeCategory: action.isFetchedAllSkuAttributeCategory
+      });
+    case ActionType.SKU.ATTRIBUTE.CATEGORY.GET_ALL.FULFILLED:
+      return Object.assign({}, state, {
+        isFetchingAllSkuAttributeCategory: action.isFetchingAllSkuAttributeCategory,
+        isFetchedAllSkuAttributeCategory: action.isFetchedAllSkuAttributeCategory,
+        skuAttributeCategory: action.skuAttributeCategory
       });
     default:
       return state;

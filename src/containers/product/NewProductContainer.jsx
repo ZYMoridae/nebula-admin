@@ -4,11 +4,11 @@ import {
   addCartItem,
   hideSuccessToast,
   fetchProductComments
-} from "../actions/ProductInfoActions";
+} from "../../actions/ProductInfoActions";
 
-import { updateProduct } from "../actions/ProductsActions";
+import { updateProduct } from "../../actions/ProductsActions";
 
-import ProductInfo from "../components/ProductInfo";
+import NewProduct from "../../components/Product/New";
 
 const mapStateToProps = state => {
   return {
@@ -59,9 +59,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const ProductInfoContainer = connect(
+const NewProductContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ProductInfo);
+)(NewProduct);
 
-export default ProductInfoContainer;
+export default NewProductContainer;

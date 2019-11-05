@@ -241,8 +241,8 @@ class Home extends Component {
 
   componentDidMount() {
     const { fetchHomeBannerInfo, fetchFeaturedProducts } = this.props;
-    fetchHomeBannerInfo();
-    fetchFeaturedProducts(1, 4);
+    // fetchHomeBannerInfo();
+    // fetchFeaturedProducts(1, 4);
   }
 
   render() {

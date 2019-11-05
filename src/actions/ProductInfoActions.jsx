@@ -147,7 +147,7 @@ export const fetchProductComments = (productId) => {
 
     Zjax.request({
       url: `/api/products/${productId}/comments`,
-      option: Utils.addToken(options),
+      option: options,
       successCallback: (response) => {
         dispatch(receieveProductComments(response.data));
       },

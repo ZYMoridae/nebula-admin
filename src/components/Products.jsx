@@ -14,6 +14,11 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import DeleteIcon from "@material-ui/icons/Delete";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Button from "@material-ui/core/Button";
+
+import AddRoundedIcon from "@material-ui/icons/AddRounded";
+import IconButton from '@material-ui/core/IconButton';
 
 const styles = theme => ({
   container: {
@@ -66,7 +71,10 @@ const styles = theme => ({
     }
   },
   table: {
-    width: '100%'
+    width: "100%"
+  },
+  newButton: {
+    float: "right"
   }
 });
 
@@ -80,7 +88,7 @@ class Products extends Component {
     const { fetchProductsInfo, page, perPage, orderBy } = this.props;
     let currentOffset = (page - 1) * perPage;
     this.handleClick(currentOffset);
-    fetchProductsInfo(page, perPage, orderBy);
+    // fetchProductsInfo(page, perPage, orderBy);
   }
 
   updateUrlParmas(page, perPage, orderBy) {
@@ -104,7 +112,15 @@ class Products extends Component {
     fetchProductsInfo(page, perPage, orderBy);
   }
   render() {
-    const { info, classes, perPage, totalPages, page } = this.props;
+    const {
+      info,
+      classes,
+      perPage,
+      totalPages,
+      page,
+      isFetchingProducts,
+      isFetchedProducts
+    } = this.props;
 
     const theme = createMuiTheme({
       typography: {
@@ -122,25 +138,39 @@ class Products extends Component {
           <Grid
             // container
             // spacing={32}
-            direction="row"
+            // direction="row"
             className={classes.prodcutContainer}
           >
             <Grid item xs={1} lg={2}></Grid>
             <Grid item xs={10} lg={12}>
               <Grid
-                // container
-                // spacing={32}
-                direction="row"
-                // alignContent="center"
+              // container
+              // spacing={32}
+              // direction="row"
+              // alignContent="center"
               >
                 <Grid item xs={12}>
                   <Typography variant="h4" gutterBottom>
                     Products
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      className={classes.newButton}
+                      color="primary"
+                      onClick={()=>{
+                        window.location.href = "/products/new";
+                      }}
+                    >
+                      {/* <AddRoundedIcon /> */}
+                      Add
+                    </Button>
                   </Typography>
                   <Divider />
                 </Grid>
 
                 <Grid item xs={12}>
+                  {isFetchingProducts && <CircularProgress />}
+
                   <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                       <TableRow>
@@ -173,13 +203,16 @@ class Products extends Component {
                               {product.createdAt}
                             </TableCell>
                             <TableCell align="right">
-                              <a
+                              <IconButton
+                                aria-label="delete"
+                                className={classes.margin}
+                                size="small"
                                 onClick={() => {
                                   onDeleteClick(product);
                                 }}
                               >
-                                <DeleteIcon />
-                              </a>
+                                <DeleteIcon fontSize="inherit" />
+                              </IconButton>
                             </TableCell>
                           </TableRow>
                         ))}

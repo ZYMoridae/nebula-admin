@@ -2,20 +2,32 @@ import React, { Component } from "react";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import Drawer from "@material-ui/core/Drawer";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import List from "@material-ui/core/List";
+import Divider from "@material-ui/core/Divider";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import MailIcon from "@material-ui/icons/Mail";
 
-import Constants from '../utils/Contants';
+import PersonRoundedIcon from "@material-ui/icons/PersonRounded";
+import HomeRoundedIcon from "@material-ui/icons/HomeRounded";
+import DescriptionRoundedIcon from "@material-ui/icons/DescriptionRounded";
+import ClassRoundedIcon from "@material-ui/icons/ClassRounded";
+import CardMembershipRoundedIcon from "@material-ui/icons/CardMembershipRounded";
+import LocalShippingRoundedIcon from "@material-ui/icons/LocalShippingRounded";
+import ShoppingCartRoundedIcon from "@material-ui/icons/ShoppingCartRounded";
+import VerifiedUserRoundedIcon from "@material-ui/icons/VerifiedUserRounded";
+import SchoolRoundedIcon from "@material-ui/icons/SchoolRounded";
+import CategoryRoundedIcon from "@material-ui/icons/CategoryRounded";
+import LocalGroceryStoreRoundedIcon from "@material-ui/icons/LocalGroceryStoreRounded";
 
+import Constants from "../utils/Contants";
+import NebulaIcon from "../components/NebulaIcon";
 const drawerWidth = Constants.styles.sidebar.width;
 
 const styles = theme => ({
@@ -48,21 +60,86 @@ const styles = theme => ({
   },
   drawer: {
     width: drawerWidth,
-    flexShrink: 0,
+    flexShrink: 0
   },
   drawerPaper: {
-    width: drawerWidth,
+    width: drawerWidth
+  },
+  toolbar: {
+    height: 64
+    // backgroundColor: '#2b8eff'
   }
 });
+
+const userBlock = [
+  {
+    name: "User",
+    icon: <PersonRoundedIcon />
+  },
+  {
+    name: "Teacher",
+    icon: <SchoolRoundedIcon />
+  },
+  {
+    name: "Role",
+    icon: <VerifiedUserRoundedIcon />
+  }
+];
+
+const productBlock = [
+  {
+    name: "Product",
+    icon: <LocalGroceryStoreRoundedIcon />
+  },
+  {
+    name: "Product Category",
+    icon: <CategoryRoundedIcon />
+  },
+  {
+    name: "Sku Category",
+    icon: <CategoryRoundedIcon />
+  },
+  {
+    name: "Class",
+    icon: <ClassRoundedIcon />
+  }
+];
+
+const supportBlock = [
+  {
+    name: "Order",
+    icon: <ShoppingCartRoundedIcon />
+  },
+  {
+    name: "Invoice",
+    icon: <DescriptionRoundedIcon />
+  },
+  {
+    name: "Shipper",
+    icon: <LocalShippingRoundedIcon />
+  },
+  {
+    name: "Membership",
+    icon: <CardMembershipRoundedIcon />
+  }
+];
 
 class SideDrawer extends Component {
   render() {
     const { classes } = this.props;
 
-    const itemClickHandler = (itemName) => {
-      window.location.href = `/${itemName.toLowerCase()}s`;
-    }
+    const itemClickHandler = itemName => {
+      if (itemName == "home") {
+        window.location.href = "/home";
+      } else {
+        window.location.href = `/${itemName.toLowerCase()}s`;
+      }
+    };
 
+    const checkSelected = (name) => {
+      return window.location.pathname.startsWith(`/${name.toLowerCase()}`);
+    }
+    
     return (
       <div>
         <Drawer
@@ -73,26 +150,67 @@ class SideDrawer extends Component {
           }}
           anchor="left"
         >
-          <div className={classes.toolbar} />
+          <div className={classes.toolbar}></div>
           <Divider />
           <List>
-            {["User", "Product", "Product Category ", "Payment"].map((text, index) => (
-              <ListItem button key={text} onClick = {()=>{itemClickHandler(text)}}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
+            <ListItem
+              button
+              selected={checkSelected('home')}
+              onClick={() => {
+                itemClickHandler("home");
+              }}
+            >
+              <ListItemIcon>
+                <HomeRoundedIcon />
+              </ListItemIcon>
+              <ListItemText primary="home" />
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            {userBlock.map((item, index) => (
+              <ListItem
+                button
+                selected={checkSelected(item.name)}
+                key={index}
+                onClick={() => {
+                  itemClickHandler(item.name);
+                }}
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.name} />
               </ListItem>
             ))}
           </List>
           <Divider />
           <List>
-            {["Support", "Analytics", "Others"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
+            {productBlock.map((item, index) => (
+              <ListItem
+                button
+                key={index}
+                selected={checkSelected(item.name)}
+                onClick={() => {
+                  itemClickHandler(item.name);
+                }}
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.name} />
+              </ListItem>
+            ))}
+          </List>
+          <Divider />
+          <List>
+            {supportBlock.map((item, index) => (
+              <ListItem
+                button
+                selected={checkSelected(item.name)}
+                key={index}
+                onClick={() => {
+                  itemClickHandler(item.name);
+                }}
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.name} />
               </ListItem>
             ))}
           </List>

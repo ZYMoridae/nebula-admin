@@ -37,6 +37,12 @@ import AsyncSelect from "react-select/async";
 
 import "./ProductForm.css";
 
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
+import SkuAttributeForm from "./SkuAttributeForm";
 // import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
@@ -90,6 +96,16 @@ const styles = theme => ({
     // width: "100%",
     marginTop: "16px",
     height: "56px"
+  },
+  skuContainer: {
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing.unit * 3,
+    paddingRight: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 2
+  },
+  skuAttributePanelDetails: {
+    display: "block"
   }
 });
 
@@ -100,25 +116,31 @@ class ProductForm extends Component {
       name: "",
       description: "",
       id: 0,
-      categoryoOptions: []
+      categoryOptions: [],
+      skus: [],
+      skuExpanded: false,
+      skuAttributeExpanded: false
     };
     // this.setState.bind(this);
   }
 
   componentDidMount() {
-    const { product } = this.props;
-    console.log(product);
-    this.setState({
-      name: product.name,
-      description: product.description,
-      id: product.id,
-      categoryoOptions: [
-        {
-          value: product.productCategory.id,
-          label: product.productCategory.name
-        }
-      ]
-    });
+    const { product, mode } = this.props;
+    // console.log(product);
+    if (mode != "new") {
+      this.setState({
+        name: product.name,
+        description: product.description,
+        id: product.id,
+        categoryOptions: [
+          {
+            value: product.productCategory.id,
+            label: product.productCategory.name
+          }
+        ],
+        skus: product.skus
+      });
+    }
   }
 
   handleChange(event) {
@@ -138,9 +160,9 @@ class ProductForm extends Component {
     };
 
     _product.vendorId = this.props.product.vendor.id;
-    _product.categoryId = this.state.categoryoOptions.value;
+    _product.categoryId = this.state.categoryOptions.value;
 
-    delete _product.categoryoOptions;
+    delete _product.categoryOptions;
 
     this.props.updateProduct(_product);
   }
@@ -155,7 +177,8 @@ class ProductForm extends Component {
       hideSuccessToast,
       productComments,
       isAddingCartItem,
-      fetchProductInfoError
+      fetchProductInfoError,
+      mode
     } = this.props;
 
     console.log(this.props.product);
@@ -165,19 +188,10 @@ class ProductForm extends Component {
     const handleInputChange = newValue => {
       // const inputValue = newValue.replace(/\W/g, "");
       this.setState({
-        categoryoOptions: newValue
+        categoryOptions: newValue
       });
       // console.log(newValue);
       // return inputValue;
-    };
-
-    const reformatResponse = response => {
-      return response._embedded.productCategoryList.map(item => {
-        return {
-          value: item.id,
-          label: item.name
-        };
-      });
     };
 
     const loadOptions = async (inputValue, callback) => {
@@ -200,6 +214,14 @@ class ProductForm extends Component {
       });
     };
 
+    const handlePanelChange = name => {
+      let expandFieldName = name + "Expanded";
+      console.log(expandFieldName, this.state);
+      this.setState({
+        [expandFieldName]: !this.state[expandFieldName]
+      });
+    };
+
     return (
       <div>
         <Grid container spacing={8}>
@@ -209,23 +231,25 @@ class ProductForm extends Component {
             </Typography>
           </Grid>
 
-          <Grid item xs={12} sm={12}>
-            <TextField
-              disabled
-              id="outlined-number"
-              label="Id"
-              name="id"
-              type="text"
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true
-              }}
-              margin="normal"
-              variant="outlined"
-              value={this.state.id}
-              onChange={this.handleChange.bind(this)}
-            />
-          </Grid>
+          {mode != "new" && (
+            <Grid item xs={12} sm={12}>
+              <TextField
+                disabled
+                id="outlined-number"
+                label="Id"
+                name="id"
+                type="text"
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                margin="normal"
+                variant="outlined"
+                value={this.state.id}
+                onChange={this.handleChange.bind(this)}
+              />
+            </Grid>
+          )}
 
           <Grid item xs={12} sm={6}>
             <TextField
@@ -251,7 +275,7 @@ class ProductForm extends Component {
               loadOptions={loadOptions}
               defaultOptions
               classNamePrefix="react-select"
-              value={this.state.categoryoOptions}
+              value={this.state.categoryOptions}
               onChange={handleInputChange}
             />
           </Grid>
@@ -272,6 +296,84 @@ class ProductForm extends Component {
               value={this.state.description}
               onChange={this.handleChange.bind(this)}
             />
+          </Grid>
+
+          {/* SKU Block*/}
+
+          <Grid item xs={12} sm={12}>
+            <ExpansionPanel
+              expanded={this.state.skuExpanded}
+              onChange={() => {
+                handlePanelChange("sku");
+              }}
+            >
+              <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1bh-content"
+                id="panel1bh-header"
+              >
+                <Typography variant="subtitle2">Sku</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                {Array.isArray(this.state.skus) &&
+                  this.state.skus.map((sku, index) => (
+                    <Grid item xs={12} sm={12} key={index}>
+                      {/* <Paper className={classes.skuContainer}> */}
+                      <div>
+                        <TextField
+                          disabled
+                          id="outlined-number"
+                          label="Sku Code"
+                          name="Sku Code"
+                          type="text"
+                          className={classes.textField}
+                          InputLabelProps={{
+                            shrink: true
+                          }}
+                          multiline
+                          margin="normal"
+                          variant="outlined"
+                          value={this.state.skus[index].skuCode}
+                          onChange={this.handleChange.bind(this)}
+                        />
+
+                        <ExpansionPanel
+                          expanded={this.state.skuAttributeExpanded}
+                          onChange={() => {
+                            handlePanelChange("skuAttribute");
+                          }}
+                        >
+                          <ExpansionPanelSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1bh-content"
+                            id="panel1bh-header"
+                          >
+                            <Typography variant="subtitle2">
+                              Sku Attributes
+                            </Typography>
+                          </ExpansionPanelSummary>
+                          <ExpansionPanelDetails
+                            className={classes.skuAttributePanelDetails}
+                          >
+                            {Array.isArray(
+                              this.state.skus[index].skuAttributes
+                            ) &&
+                              this.state.skus[index].skuAttributes.map(
+                                (skuAttribute, index2) => (
+                                  <SkuAttributeForm
+                                    skuAttribute={skuAttribute}
+                                    key={index2}
+                                  ></SkuAttributeForm>
+                                )
+                              )}
+                          </ExpansionPanelDetails>
+                        </ExpansionPanel>
+                      </div>
+                      {/* </Paper> */}
+                    </Grid>
+                  ))}
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
           </Grid>
 
           <Grid item xs={12} sm={12}>

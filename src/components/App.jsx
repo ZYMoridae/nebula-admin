@@ -24,6 +24,9 @@ import Routes from "../utils/Routes";
 import { green, orange, blue } from "@material-ui/core/colors";
 import SideDrawer from "./SideDrawer";
 
+import NewProduct from "../containers/product/NewProductContainer";
+import NewProductContainer from "../containers/product/NewProductContainer";
+
 const nebulaTheme = createMuiTheme({
   typography: {
     useNextVariants: true
@@ -116,6 +119,14 @@ const PaymentComponent = ({ match }) => {
   );
 };
 
+const NewProuctComponent = ({match}) => {
+  return (
+    <div>
+      <NewProductContainer />
+    </div>
+  )
+}
+
 class App extends React.Component {
   render() {
     return (
@@ -126,15 +137,15 @@ class App extends React.Component {
               <HeaderBarContainer></HeaderBarContainer>
             )}
 
-            {location.pathname !== Routes.USER.LOGIN && (
-              <SideDrawer></SideDrawer>
-            )}
+            {location.pathname !== Routes.USER.LOGIN &&
+              location.pathname !== "/" && <SideDrawer></SideDrawer>}
 
             <Switch>
               <Route exact path="/login" component={Login} />
 
               <PrivateRoute exact path="/home" component={Home} />
               <PrivateRoute exact path="/products" component={Products} />
+              <PrivateRoute exact path="/products/new" component={NewProuctComponent}/>
               <PrivateRoute
                 exact
                 path="/products/:id"

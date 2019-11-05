@@ -272,7 +272,7 @@ class PrimarySearchAppBar extends React.Component {
             </IconButton> : ''} */}
             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
               <Toolbar>
-                <NebulaIcon />
+                {/* <NebulaIcon /> */}
                 <Typography variant="h6" color="inherit" noWrap>
                   <a href="/" className={classes.homeButton}>
                     {t('max_studio')}

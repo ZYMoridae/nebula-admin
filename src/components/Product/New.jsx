@@ -25,23 +25,19 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 import Snackbar from "@material-ui/core/Snackbar";
-import MySnackbarContent from "./MySnackbarContent";
+import MySnackbarContent from "../MySnackbarContent";
 
 import Fade from "@material-ui/core/Fade";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import ProductCategorySideBarContainer from "../containers/ProductCategorySideBarContainer";
-
-import ProductComments from "./ProductComments";
-
-import ContentNotFound from "./utils/ContentNotFound";
+import ContentNotFound from "../utils/ContentNotFound";
 import { isValid } from "ipaddr.js";
 
 import TextField from "@material-ui/core/TextField";
 
-import Constants from "../utils/Contants";
-import ProductForm from "./Product/ProductForm";
+import Constants from "../../utils/Contants";
+import ProductForm from "./ProductForm";
 
 const styles = theme => ({
   container: {
@@ -94,7 +90,7 @@ const renderProductNotFoundBlock = () => {
   return <ContentNotFound />;
 };
 
-class ProductInfo extends Component {
+class New extends Component {
   constructor() {
     super();
     this.state = {
@@ -137,18 +133,15 @@ class ProductInfo extends Component {
 
     let productInfoBlock = "";
 
-    if (fetchProductInfoError != undefined) {
-      productInfoBlock = renderProductNotFoundBlock();
-    } else {
-      productInfoBlock = (
-        <div>
-          <ProductForm
-            product={info}
-            updateProduct={updateProduct}
-          ></ProductForm>
-        </div>
-      );
-    }
+    productInfoBlock = (
+      <div>
+        <ProductForm
+          product={info}
+          updateProduct={updateProduct}
+          mode='new'
+        ></ProductForm>
+      </div>
+    );
 
     return (
       <div>
@@ -175,8 +168,7 @@ class ProductInfo extends Component {
             </Grid>
 
             <Grid item xs={10} sm={8} className={classes.container}>
-              {isFetchingProductInfo && <CircularProgress />}
-              {isFetchedProductInfo && info && productInfoBlock}
+              {productInfoBlock}
             </Grid>
             <Grid item xs={1} sm={1}></Grid>
           </Grid>
@@ -186,4 +178,4 @@ class ProductInfo extends Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(ProductInfo);
+export default withStyles(styles, { withTheme: true })(New);

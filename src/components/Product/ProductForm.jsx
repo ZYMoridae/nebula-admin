@@ -44,6 +44,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import SkuAttributeForm from "./SkuAttributeForm";
 // import Button from "@material-ui/core/Button";
+import AddRoundedIcon from "@material-ui/icons/AddRounded";
 
 const styles = theme => ({
   container: {
@@ -106,8 +107,74 @@ const styles = theme => ({
   },
   skuAttributePanelDetails: {
     display: "block"
+  },
+  newButton: {
+    width: "100%",
+    height: 54
   }
 });
+
+const SkusBlock = props => {
+  const {
+    skus,
+    classes,
+    skuAttributeExpanded,
+    handleChange,
+    handlePanelChange
+  } = props;
+
+  return (
+    Array.isArray(skus) &&
+    skus.map((sku, index) => (
+      <Grid item xs={12} sm={12} key={index}>
+        {/* <Paper className={classes.skuContainer}> */}
+        <div>
+          <TextField
+            disabled
+            id="outlined-number"
+            label="Sku Code"
+            name="Sku Code"
+            type="text"
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true
+            }}
+            multiline
+            margin="normal"
+            variant="outlined"
+            value={skus[index].skuCode}
+            onChange={handleChange}
+          />
+
+          <ExpansionPanel
+            expanded={skuAttributeExpanded}
+            onChange={() => {
+              handlePanelChange("skuAttribute");
+            }}
+          >
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
+            >
+              <Typography variant="subtitle2">Sku Attributes</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails className={classes.skuAttributePanelDetails}>
+              {Array.isArray(skus[index].skuAttributes) &&
+                skus[index].skuAttributes.map((skuAttribute, index2) => (
+                  <SkuAttributeForm
+                    skuAttribute={skuAttribute}
+                    key={index2}
+                  ></SkuAttributeForm>
+                ))}
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        </div>
+        {/* </Paper> */}
+      </Grid>
+    ))
+  );
+};
 
 class ProductForm extends Component {
   constructor() {
@@ -301,79 +368,46 @@ class ProductForm extends Component {
           {/* SKU Block*/}
 
           <Grid item xs={12} sm={12}>
-            <ExpansionPanel
-              expanded={this.state.skuExpanded}
-              onChange={() => {
-                handlePanelChange("sku");
-              }}
-            >
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1bh-content"
-                id="panel1bh-header"
+            {this.state.skus.length > 0 ? (
+              <ExpansionPanel
+                expanded={this.state.skuExpanded}
+                onChange={() => {
+                  handlePanelChange("sku");
+                }}
               >
-                <Typography variant="subtitle2">Sku</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                {Array.isArray(this.state.skus) &&
-                  this.state.skus.map((sku, index) => (
-                    <Grid item xs={12} sm={12} key={index}>
-                      {/* <Paper className={classes.skuContainer}> */}
-                      <div>
-                        <TextField
-                          disabled
-                          id="outlined-number"
-                          label="Sku Code"
-                          name="Sku Code"
-                          type="text"
-                          className={classes.textField}
-                          InputLabelProps={{
-                            shrink: true
-                          }}
-                          multiline
-                          margin="normal"
-                          variant="outlined"
-                          value={this.state.skus[index].skuCode}
-                          onChange={this.handleChange.bind(this)}
-                        />
-
-                        <ExpansionPanel
-                          expanded={this.state.skuAttributeExpanded}
-                          onChange={() => {
-                            handlePanelChange("skuAttribute");
-                          }}
-                        >
-                          <ExpansionPanelSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1bh-content"
-                            id="panel1bh-header"
-                          >
-                            <Typography variant="subtitle2">
-                              Sku Attributes
-                            </Typography>
-                          </ExpansionPanelSummary>
-                          <ExpansionPanelDetails
-                            className={classes.skuAttributePanelDetails}
-                          >
-                            {Array.isArray(
-                              this.state.skus[index].skuAttributes
-                            ) &&
-                              this.state.skus[index].skuAttributes.map(
-                                (skuAttribute, index2) => (
-                                  <SkuAttributeForm
-                                    skuAttribute={skuAttribute}
-                                    key={index2}
-                                  ></SkuAttributeForm>
-                                )
-                              )}
-                          </ExpansionPanelDetails>
-                        </ExpansionPanel>
-                      </div>
-                      {/* </Paper> */}
-                    </Grid>
-                  ))}
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1bh-content"
+                  id="panel1bh-header"
+                >
+                  <Typography variant="subtitle2">Sku</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                  {
+                    <SkusBlock
+                      skus={this.state.skus}
+                      classes={classes}
+                      skuAttributeExpanded={this.state.skuAttributeExpanded}
+                      handleChange={this.handleChange.bind(this)}
+                      handlePanelChange={handlePanelChange}
+                    />
+                  }
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+            ) : (
+              <Button
+                size="small"
+                variant="outlined"
+                className={classes.newButton}
+                color="primary"
+                onClick={() => {
+                  // window.location.href = "/products/new";
+                }}
+              >
+                <AddRoundedIcon />
+                Add Sku
+              </Button>
+            )}
           </Grid>
 
           <Grid item xs={12} sm={12}>

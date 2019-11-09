@@ -8,7 +8,7 @@ import {
 
 import { updateProduct } from "../actions/ProductsActions";
 
-import ProductInfo from "../components/ProductInfo";
+import ProductInfo from "../components/Product/ProductInfo";
 
 const mapStateToProps = state => {
   return {

@@ -1,47 +1,22 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import { withStyles } from "@material-ui/core/styles";
-import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
 
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
 
-import ShoppingCart from "@material-ui/icons/ShoppingCart";
-import PlayCircleOutline from "@material-ui/icons/PlayCircleOutline";
-
-import OutlinedInput from "@material-ui/core/OutlinedInput";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import Divider from "@material-ui/core/Divider";
 import "react-image-gallery/styles/css/image-gallery.css";
-import ImageGallery from "react-image-gallery";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 
 import Snackbar from "@material-ui/core/Snackbar";
-import MySnackbarContent from "./MySnackbarContent";
+import MySnackbarContent from "../MySnackbarContent";
 
 import Fade from "@material-ui/core/Fade";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import ProductCategorySideBarContainer from "../containers/ProductCategorySideBarContainer";
+import ContentNotFound from "../utils/ContentNotFound";
 
-import ProductComments from "./ProductComments";
-
-import ContentNotFound from "./utils/ContentNotFound";
-import { isValid } from "ipaddr.js";
-
-import TextField from "@material-ui/core/TextField";
-
-import Constants from "../utils/Contants";
-import ProductForm from "./Product/ProductForm";
+import Constants from "../../utils/Contants";
+import ProductForm from "./ProductForm";
 
 const styles = theme => ({
   container: {
@@ -145,6 +120,7 @@ class ProductInfo extends Component {
           <ProductForm
             product={info}
             updateProduct={updateProduct}
+            mode="update"
           ></ProductForm>
         </div>
       );

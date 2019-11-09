@@ -104,14 +104,14 @@ class New extends Component {
   componentDidMount() {
     const {
       fetchProductInfo,
-      productId,
+      // productId,
       fetchProductComments,
       isFetchedProductInfo
     } = this.props;
     // this.setState({
     //   labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth
     // });
-    fetchProductInfo(productId);
+    // fetchProductInfo(productId);
     // fetchProductComments(productId);
   }
 

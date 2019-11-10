@@ -107,7 +107,8 @@ class ProductInfo extends Component {
       fetchProductInfoError,
       isFetchedProductInfo,
       isFetchingProductInfo,
-      updateProduct
+      updateProduct,
+      createProduct
     } = this.props;
 
     let productInfoBlock = "";

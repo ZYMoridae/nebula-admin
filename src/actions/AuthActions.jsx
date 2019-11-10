@@ -55,7 +55,7 @@ export const fetchAuthInfo = (data) => {
       },
       successCallback: (response) => {
         // Set auth token
-        sessionStorage.setItem('user', response.data);
+        sessionStorage.setItem('user', JSON.stringify(response.data.user));
         localStorage.setItem('token', response.data.token);
         dispatch(receieveAuth(response.data));
       },

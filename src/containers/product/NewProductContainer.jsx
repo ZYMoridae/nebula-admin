@@ -10,6 +10,8 @@ import { updateProduct } from "../../actions/ProductsActions";
 
 import NewProduct from "../../components/Product/New";
 
+import { createProduct } from "../../actions/ProductActions";
+
 const mapStateToProps = state => {
   return {
     info: state.ProductInfoReducer.info,
@@ -31,7 +33,9 @@ const mapStateToProps = state => {
       state.ProductInfoReducer.isFetchingAllSkuAttributeCategory,
     isFetchedAllSkuAttributeCategory:
       state.ProductInfoReducer.isFetchedAllSkuAttributeCategory,
-    skuAttributeCategory: state.ProductInfoReducer.skuAttributeCategory
+    skuAttributeCategory: state.ProductInfoReducer.skuAttributeCategory,
+    isCreatingProduct: state.ProductInfoReducer.isCreatingProduct,
+    isCreatedProdudct: state.ProductInfoReducer.isCreatedProdudct
   };
 };
 
@@ -55,6 +59,9 @@ const mapDispatchToProps = dispatch => {
     },
     fetchAllSkuAttributeCategory: keyword => {
       dispatch(fetchAllSkuAttributeCategory(keyword));
+    },
+    createProduct: product => {
+      dispatch(createProduct(product));
     }
   };
 };

@@ -25,7 +25,12 @@ const Utils = {
     // Clear session storage
     sessionStorage.removeItem("user");
     sessionStorage.removeItem("token");
-  }
+  },
+  getCurrentUser: () => {
+    return JSON.parse(sessionStorage.getItem("user"));
+  },
+  // NOTE: Global debug mode
+  debug: true
 };
 
 export default Utils;

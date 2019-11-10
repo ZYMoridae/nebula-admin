@@ -115,7 +115,15 @@ class SkuAttributeForm extends Component {
   }
 
   render() {
-    const { classes, skuAttribute, mode, skuAttributeIndex } = this.props;
+    const {
+      classes,
+      skuAttribute,
+      mode,
+      skuAttributeIndex,
+      handleSkuAttributeChange,
+      skuIndex,
+      handleSkuAttributeCategoryChange
+    } = this.props;
 
     const loadOptions = async (inputValue, callback) => {
       const url = `/api/skus/attributes/categories${"?keyword=" + inputValue}`;
@@ -137,10 +145,12 @@ class SkuAttributeForm extends Component {
       });
     };
 
-    const handleInputChange = newValue => {
+    const handleInputChange = (newValue, action) => {
       this.setState({
         categoryOptions: newValue
       });
+      console.log(newValue, action);
+      this.props.handleSkuAttributeCategoryChange(action.name, newValue);
     };
 
     return (
@@ -149,7 +159,7 @@ class SkuAttributeForm extends Component {
           <Indicator index={skuAttributeIndex + 1} />
         </div>
 
-        {mode != "new" && (
+        {mode != "new" && skuAttribute.id && (
           <Grid item xs={12} sm={12}>
             <TextField
               id="outlined-number"
@@ -171,6 +181,7 @@ class SkuAttributeForm extends Component {
         <Grid item xs={12} sm={12}>
           <AsyncSelect
             className={classes.categorySelect}
+            name={`${skuIndex}_sku_${skuAttributeIndex}_category`}
             cacheOptions
             loadOptions={loadOptions}
             defaultOptions
@@ -184,7 +195,7 @@ class SkuAttributeForm extends Component {
           <TextField
             id="outlined-number"
             label="Value"
-            name="value"
+            name={`${skuIndex}_sku_${skuAttributeIndex}_value`}
             type="text"
             className={classes.textField}
             InputLabelProps={{
@@ -193,8 +204,8 @@ class SkuAttributeForm extends Component {
             multiline
             margin="normal"
             variant="outlined"
-            value={this.state.value}
-            onChange={this.handleChange.bind(this)}
+            value={skuAttribute.value}
+            onChange={handleSkuAttributeChange}
           />
         </Grid>
       </Paper>

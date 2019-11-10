@@ -128,7 +128,8 @@ class New extends Component {
       fetchProductInfoError,
       isFetchedProductInfo,
       isFetchingProductInfo,
-      updateProduct
+      updateProduct,
+      createProduct
     } = this.props;
 
     let productInfoBlock = "";
@@ -138,6 +139,7 @@ class New extends Component {
         <ProductForm
           product={info}
           updateProduct={updateProduct}
+          createProduct={createProduct}
           mode='new'
         ></ProductForm>
       </div>

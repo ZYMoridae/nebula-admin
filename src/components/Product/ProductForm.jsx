@@ -159,6 +159,11 @@ class ProductForm extends Component {
     });
   }
 
+  /*,
+   * Handler for Sku field change
+   *
+   * @param {*} event
+   */
   handleSkusChange(event) {
     let nameSplit = event.target.name.split("_");
 
@@ -170,21 +175,92 @@ class ProductForm extends Component {
     });
   }
 
+  handleSkuAttributeChange(event) {
+    let nextState = this.state.skus;
+
+    let split = event.target.name.split("_");
+
+    nextState[split[0]].skuAttributes[split[2]][split[3]] = event.target.value;
+    this.setState({
+      skus: nextState
+    });
+  }
+
+  handleSkuAttributeCategoryChange(name, categoryOption) {
+    let split = name.split("_");
+
+    let nextState = this.state.skus;
+
+    nextState[split[0]].skuAttributes[split[2]].skuAttributeCategory = {
+      id: categoryOption.value,
+      name: categoryOption.label
+    };
+
+    nextState[split[0]].skuAttributes[split[2]].skuAttributeCategoryId =
+      categoryOption.value;
+
+    this.setState({
+      skus: nextState
+    });
+  }
+
   /**
    * Update product AJAX call
    */
   handleSubmit() {
-    let _product = {
-      ...this.props.product,
-      ...this.state
-    };
+    if (this.props.mode == "update") {
+      console.log(this.state);
 
-    _product.vendorId = this.props.product.vendor.id;
-    _product.categoryId = this.state.categoryOptions.value;
+      let _product = {
+        ...this.props.product,
+        ...this.state
+      };
 
-    delete _product.categoryOptions;
+      _product.vendorId = this.props.product.vendor.id;
+      _product.categoryId = this.state.categoryOptions[0].value;
 
-    this.props.updateProduct(_product);
+      console.log(_product.vendorId, _product.categoryId);
+
+      delete _product.categoryOptions;
+
+      _product.skus.forEach((sku, index) => {
+        if (_.isNil(sku.productId)) {
+          sku.productId = _product.id;
+        }
+
+        if (Array.isArray(sku.skuAttributes)) {
+          sku.skuAttributes.forEach((skuAttribute, index2) => {
+            delete skuAttribute.skuAttributeCategory;
+          });
+        }
+      });
+
+      this.props.updateProduct(_product);
+    } else {
+      let _product = this.state;
+
+      console.log(this.state);
+
+      _product.categoryId = this.state.categoryOptions.value;
+
+      if (Array.isArray(_product.skus)) {
+        _product.skus.forEach(sku => {
+          sku.createdUserId = Utils.getCurrentUser().id;
+        });
+
+        _product.skus.forEach(sku => {
+          if (Array.isArray(sku.skuAttributes)) {
+            sku.skuAttributes.forEach(skuAttribute => {
+              delete skuAttribute.skuAttributeCategory;
+            });
+          }
+        });
+      }
+
+      delete _product.id;
+
+      this.props.createProduct(_product);
+    }
   }
 
   /**
@@ -208,31 +284,39 @@ class ProductForm extends Component {
       });
     }
 
+    let item = {
+      price: "",
+      stock: "",
+      skuAttributes: []
+    };
+
     this.setState({
-      skus: [
-        ...this.state.skus,
-        {
-          price: "",
-          stock: "",
-          skuAttributes: []
-        }
-      ]
+      skus: [...this.state.skus, item]
     });
   }
 
   addSkuAttributeOnClickHandler(skuIndex) {
     let nextSkus = this.state.skus;
 
+    let item = {
+      value: "",
+      skuAttributeCategory: {
+        id: "",
+        name: ""
+      }
+    };
+
+    if (!_.isNil(nextSkus[skuIndex].skuCode)) {
+      item.skuCode = nextSkus[skuIndex].skuCode;
+    }
+
+    if (!Array.isArray(nextSkus[skuIndex].skuAttributes)) {
+      nextSkus[skuIndex].skuAttributes = [];
+    }
+
     nextSkus[skuIndex].skuAttributes = [
       ...nextSkus[skuIndex].skuAttributes,
-      {
-        categoryOptions: [],
-        value: "",
-        skuAttributeCategory: {
-          id: "",
-          name: ""
-        }
-      }
+      item
     ];
 
     this.setState({
@@ -291,10 +375,12 @@ class ProductForm extends Component {
             label: item.name
           };
         });
+
+        return json;
       } catch (error) {
         console.log(error);
       }
-
+      console.log(json);
       return json;
     };
 
@@ -413,6 +499,12 @@ class ProductForm extends Component {
                         mode={mode}
                         onSkuDeleteClick={this.onSkuDeleteClick.bind(this)}
                         addSkuAttributeOnClickHandler={this.addSkuAttributeOnClickHandler.bind(
+                          this
+                        )}
+                        handleSkuAttributeChange={this.handleSkuAttributeChange.bind(
+                          this
+                        )}
+                        handleSkuAttributeCategoryChange={this.handleSkuAttributeCategoryChange.bind(
                           this
                         )}
                       />

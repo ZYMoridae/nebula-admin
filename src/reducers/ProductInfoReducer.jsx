@@ -92,20 +92,45 @@ const productInfoReducer = (state = initState, action) => {
     // Fetch sku attribute category
     case ActionType.SKU.ATTRIBUTE.CATEGORY.GET_ALL.PENDING:
       return Object.assign({}, state, {
-        isFetchingAllSkuAttributeCategory: action.isFetchingAllSkuAttributeCategory,
-        isFetchedAllSkuAttributeCategory: action.isFetchedAllSkuAttributeCategory
+        isFetchingAllSkuAttributeCategory:
+          action.isFetchingAllSkuAttributeCategory,
+        isFetchedAllSkuAttributeCategory:
+          action.isFetchedAllSkuAttributeCategory
       });
     case ActionType.SKU.ATTRIBUTE.CATEGORY.GET_ALL.ERROR:
       return Object.assign({}, state, {
-        isFetchingAllSkuAttributeCategory: action.isFetchingAllSkuAttributeCategory,
-        isFetchedAllSkuAttributeCategory: action.isFetchedAllSkuAttributeCategory
+        isFetchingAllSkuAttributeCategory:
+          action.isFetchingAllSkuAttributeCategory,
+        isFetchedAllSkuAttributeCategory:
+          action.isFetchedAllSkuAttributeCategory
       });
     case ActionType.SKU.ATTRIBUTE.CATEGORY.GET_ALL.FULFILLED:
       return Object.assign({}, state, {
-        isFetchingAllSkuAttributeCategory: action.isFetchingAllSkuAttributeCategory,
-        isFetchedAllSkuAttributeCategory: action.isFetchedAllSkuAttributeCategory,
+        isFetchingAllSkuAttributeCategory:
+          action.isFetchingAllSkuAttributeCategory,
+        isFetchedAllSkuAttributeCategory:
+          action.isFetchedAllSkuAttributeCategory,
         skuAttributeCategory: action.skuAttributeCategory
       });
+
+    // Create product
+    case ActionType.PRODUCT.CREATE.PENDING:
+      return Object.assign({}, state, {
+        isCreatingProduct: action.isCreatingProduct,
+        isCreatedProdudct: action.isCreatedProdudct
+      });
+    case ActionType.PRODUCT.CREATE.ERROR:
+      return Object.assign({}, state, {
+        isCreatingProduct: action.isCreatingProduct,
+        isCreatedProdudct: action.isCreatedProdudct
+      });
+    case ActionType.PRODUCT.CREATE.FULFILLED:
+      return Object.assign({}, state, {
+        isCreatingProduct: action.isCreatingProduct,
+        isCreatedProdudct: action.isCreatedProdudct,
+        info: action.info
+      });
+
     default:
       return state;
   }

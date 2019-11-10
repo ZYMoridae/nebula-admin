@@ -39,14 +39,11 @@ class SkuForm extends Component {
     };
   }
 
-  handlePanelChange() {
-    this.setState({
-      skuAttributeExpanded: !this.state.skuAttributeExpanded
-    });
-  }
-
   addSkuAttributeOnClickHandler(index) {
-    if (this.props.skus[index].skuAttributes.length == 0) {
+    if (
+      _.isNil(this.props.skus[index].skuAttributes) ||
+      this.props.skus[index].skuAttributes.length == 0
+    ) {
       this.setState({
         skuAttributeExpanded: true
       });
@@ -61,7 +58,9 @@ class SkuForm extends Component {
       handleChange,
       mode,
       onSkuDeleteClick,
-      addSkuAttributeOnClickHandler
+      addSkuAttributeOnClickHandler,
+      handleSkuAttributeChange,
+      handleSkuAttributeCategoryChange
     } = this.props;
 
     let isUpdateMode = mode.toLowerCase() != "new";
@@ -77,7 +76,7 @@ class SkuForm extends Component {
                   <Indicator index={index + 1} />
                 </div>
 
-                {isUpdateMode && (
+                {isUpdateMode && sku.skuCode && (
                   <TextField
                     disabled
                     id="outlined-number"
@@ -91,7 +90,7 @@ class SkuForm extends Component {
                     multiline
                     margin="normal"
                     variant="outlined"
-                    value={skus[index].skuCode}
+                    value={sku.skuCode}
                     onChange={handleChange}
                   />
                 )}
@@ -100,7 +99,7 @@ class SkuForm extends Component {
                   id="outlined-number"
                   label="Price"
                   name={`${index}_price`}
-                  type="text"
+                  type="number"
                   className={parentClasses.textField}
                   InputLabelProps={{
                     shrink: true
@@ -116,7 +115,7 @@ class SkuForm extends Component {
                   id="outlined-number"
                   label="Stock"
                   name={`${index}_stock`}
-                  type="text"
+                  type="number"
                   className={parentClasses.textField}
                   InputLabelProps={{
                     shrink: true
@@ -128,65 +127,13 @@ class SkuForm extends Component {
                   onChange={handleChange}
                 />
 
-                {Array.isArray(skus[index].skuAttributes) &&
-                skus[index].skuAttributes.length > 0 ? (
-                  <Fade in={true} timeout={1000}>
-                    <ExpansionPanel
-                      expanded={this.state.skuAttributeExpanded}
-                      onChange={() => {
-                        this.handlePanelChange("skuAttribute");
-                      }}
-                    >
-                      <ExpansionPanelSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls="panel1bh-content"
-                        id="panel1bh-header"
-                      >
-                        <Typography variant="subtitle2">
-                          Sku Attributes
-                        </Typography>
-                      </ExpansionPanelSummary>
-                      <ExpansionPanelDetails
-                        className={parentClasses.skuAttributePanelDetails}
-                      >
-                        <SkuAttributeForm
-                          skuAttributes={skus[index].skuAttributes}
-                          parentClasses={parentClasses}
-                          mode={mode}
-                          addSkuAttributeOnClickHandler={this.addSkuAttributeOnClickHandler.bind(
-                            this
-                          )}
-                        ></SkuAttributeForm>
-
-                        <Button
-                          size="small"
-                          variant="outlined"
-                          className={parentClasses.newButton}
-                          color="primary"
-                          onClick={() => {
-                            this.addSkuAttributeOnClickHandler(index);
-                          }}
-                        >
-                          <AddRoundedIcon />
-                          Add Sku
-                        </Button>
-                      </ExpansionPanelDetails>
-                    </ExpansionPanel>
-                  </Fade>
-                ) : (
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    className={parentClasses.newButton}
-                    color="primary"
-                    onClick={() => {
-                      this.addSkuAttributeOnClickHandler(index);
-                    }}
-                  >
-                    <AddRoundedIcon />
-                    Add Sku
-                  </Button>
-                )}
+                <SkuAttributeForm
+                  {...this.props}
+                  skuIndex={index}
+                  addSkuAttributeOnClickHandler={this.addSkuAttributeOnClickHandler.bind(
+                    this
+                  )}
+                />
 
                 <Button
                   variant="contained"

@@ -9,3 +9,4 @@ export * from './PromotionActions';
 export * from './OrderActions';
 export * from './ShippingInfoActions';
 export * from './ShoppingCartItemActions';
+export * from './ProductActions';

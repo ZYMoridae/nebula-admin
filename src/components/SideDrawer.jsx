@@ -26,6 +26,8 @@ import SchoolRoundedIcon from "@material-ui/icons/SchoolRounded";
 import CategoryRoundedIcon from "@material-ui/icons/CategoryRounded";
 import LocalGroceryStoreRoundedIcon from "@material-ui/icons/LocalGroceryStoreRounded";
 
+import KeyboardArrowRightRoundedIcon from "@material-ui/icons/KeyboardArrowRightRounded";
+
 import Constants from "../utils/Contants";
 import NebulaIcon from "../components/NebulaIcon";
 const drawerWidth = Constants.styles.sidebar.width;
@@ -68,59 +70,63 @@ const styles = theme => ({
   toolbar: {
     height: 64
     // backgroundColor: '#2b8eff'
+  },
+  itemText: {
+    fontSize: "12px",
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
   }
 });
 
 const userBlock = [
   {
     name: "User",
-    icon: <PersonRoundedIcon />
+    icon: <PersonRoundedIcon fontSize="small" />
   },
   {
     name: "Teacher",
-    icon: <SchoolRoundedIcon />
+    icon: <SchoolRoundedIcon fontSize="small" />
   },
   {
     name: "Role",
-    icon: <VerifiedUserRoundedIcon />
+    icon: <VerifiedUserRoundedIcon fontSize="small" />
   }
 ];
 
 const productBlock = [
   {
     name: "Product",
-    icon: <LocalGroceryStoreRoundedIcon />
+    icon: <LocalGroceryStoreRoundedIcon fontSize="small" />
   },
   {
     name: "Product Category",
-    icon: <CategoryRoundedIcon />
+    icon: <CategoryRoundedIcon fontSize="small" />
   },
   {
     name: "Sku Category",
-    icon: <CategoryRoundedIcon />
+    icon: <CategoryRoundedIcon fontSize="small" />
   },
   {
     name: "Class",
-    icon: <ClassRoundedIcon />
+    icon: <ClassRoundedIcon fontSize="small" />
   }
 ];
 
 const supportBlock = [
   {
     name: "Order",
-    icon: <ShoppingCartRoundedIcon />
+    icon: <ShoppingCartRoundedIcon fontSize="small" />
   },
   {
     name: "Invoice",
-    icon: <DescriptionRoundedIcon />
+    icon: <DescriptionRoundedIcon fontSize="small" />
   },
   {
     name: "Shipper",
-    icon: <LocalShippingRoundedIcon />
+    icon: <LocalShippingRoundedIcon fontSize="small" />
   },
   {
     name: "Membership",
-    icon: <CardMembershipRoundedIcon />
+    icon: <CardMembershipRoundedIcon fontSize="small" />
   }
 ];
 
@@ -136,10 +142,10 @@ class SideDrawer extends Component {
       }
     };
 
-    const checkSelected = (name) => {
+    const checkSelected = name => {
       return window.location.pathname.startsWith(`/${name.toLowerCase()}`);
-    }
-    
+    };
+
     return (
       <div>
         <Drawer
@@ -155,15 +161,16 @@ class SideDrawer extends Component {
           <List>
             <ListItem
               button
-              selected={checkSelected('home')}
+              selected={checkSelected("home")}
               onClick={() => {
                 itemClickHandler("home");
               }}
             >
               <ListItemIcon>
-                <HomeRoundedIcon />
+                <HomeRoundedIcon fontSize="small" />
               </ListItemIcon>
-              <ListItemText primary="home" />
+              {/* <ListItemText primary="Home" className={classes.itemText}/> */}
+              <span className={classes.itemText}>Home</span>
             </ListItem>
           </List>
           <Divider />
@@ -178,7 +185,8 @@ class SideDrawer extends Component {
                 }}
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.name} />
+                <span className={classes.itemText}>{item.name}</span>
+                {/* <ListItemText primary={item.name} /> */}
               </ListItem>
             ))}
           </List>
@@ -194,7 +202,8 @@ class SideDrawer extends Component {
                 }}
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.name} />
+                {/* <ListItemText primary={item.name} /> */}
+                <span className={classes.itemText}>{item.name}</span>
               </ListItem>
             ))}
           </List>
@@ -210,7 +219,8 @@ class SideDrawer extends Component {
                 }}
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText primary={item.name} />
+                {/* <ListItemText primary={item.name} /> */}
+                <span className={classes.itemText}>{item.name}</span>
               </ListItem>
             ))}
           </List>

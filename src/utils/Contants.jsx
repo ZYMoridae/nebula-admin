@@ -1,7 +1,7 @@
 const Constants = {
   styles: {
     sidebar: {
-      width: 340
+      width: 300
     }
   }
 }

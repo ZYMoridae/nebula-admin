@@ -21,7 +21,8 @@ import ProductForm from "./ProductForm";
 const styles = theme => ({
   container: {
     paddingTop: theme.spacing.unit * 5,
-    marginBottom: theme.spacing.unit * 2
+    marginBottom: theme.spacing.unit * 2,
+    marginLeft: `${Constants.styles.sidebar.width}px`
   },
   priceCaption: {
     color: "#B12704",
@@ -146,7 +147,7 @@ class ProductInfo extends Component {
         </Snackbar>
 
         <Fade in={true} timeout={1000}>
-          <Grid container className={classes.main}>
+          <Grid container>
             <Grid item xs={1} sm={1}>
               {/* <ProductCategorySideBarContainer></ProductCategorySideBarContainer> */}
             </Grid>

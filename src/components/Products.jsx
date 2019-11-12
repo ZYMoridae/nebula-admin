@@ -20,6 +20,8 @@ import Button from "@material-ui/core/Button";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import IconButton from "@material-ui/core/IconButton";
 
+import SubToolBar from "./utils/SubToolBar";
+
 const styles = theme => ({
   container: {
     display: "flex",
@@ -75,6 +77,9 @@ const styles = theme => ({
   },
   newButton: {
     float: "right"
+  },
+  paginationWrapper: {
+    textAlign: "center"
   }
 });
 
@@ -104,6 +109,11 @@ class Products extends Component {
     }
   }
 
+  /**
+   * Handle pagination click
+   *
+   * @param {*} offset
+   */
   handleClick(offset) {
     const { perPage, orderBy, fetchProductsInfo } = this.props;
     let page = offset / this.props.perPage + 1;
@@ -111,6 +121,7 @@ class Products extends Component {
     this.updateUrlParmas(page, perPage, orderBy);
     fetchProductsInfo(page, perPage, orderBy);
   }
+
   render() {
     const {
       info,
@@ -150,78 +161,67 @@ class Products extends Component {
               // alignContent="center"
               >
                 <Grid item xs={12}>
-                  <Typography variant="h4" gutterBottom>
-                    Products
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      className={classes.newButton}
-                      color="primary"
-                      onClick={() => {
-                        window.location.href = "/products/new";
-                      }}
-                    >
-                      {/* <AddRoundedIcon /> */}
-                      Add
-                    </Button>
-                  </Typography>
-                  <Divider />
+                  <SubToolBar title="Products" href="/products/new" />
                 </Grid>
 
-                <Grid item xs={12}>
-                  {isFetchingProducts && <CircularProgress />}
+                {isFetchingProducts ? (
+                  <CircularProgress />
+                ) : (
+                  <Grid item xs={12}>
+                    <Table className={classes.table} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>ID</TableCell>
+                          <TableCell align="right">Name</TableCell>
+                          <TableCell align="right">Category</TableCell>
+                          <TableCell align="right">Created At</TableCell>
+                          <TableCell align="right">Action</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {Array.isArray(info) &&
+                          info.map((product, index) => (
+                            <TableRow key={index}>
+                              <TableCell component="th" scope="row">
+                                <a
+                                  className={classes.idClick}
+                                  onClick={() => {
+                                    onDeleteClick(product);
+                                  }}
+                                >
+                                  {product.id}
+                                </a>
+                              </TableCell>
+                              <TableCell align="right">
+                                {product.name}
+                              </TableCell>
+                              <TableCell align="right">
+                                {product.productCategory.name}
+                              </TableCell>
+                              <TableCell align="right">
+                                {product.createdAt}
+                              </TableCell>
+                              <TableCell align="right">
+                                <IconButton
+                                  aria-label="delete"
+                                  className={classes.margin}
+                                  size="small"
+                                  onClick={() => {
+                                    onDeleteClick(product);
+                                  }}
+                                >
+                                  <DeleteIcon fontSize="inherit" />
+                                </IconButton>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                      </TableBody>
+                    </Table>
+                  </Grid>
+                )}
 
-                  <Table className={classes.table} aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>ID</TableCell>
-                        <TableCell align="right">Name</TableCell>
-                        <TableCell align="right">Category</TableCell>
-                        <TableCell align="right">Created At</TableCell>
-                        <TableCell align="right">Action</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {Array.isArray(info) &&
-                        info.map((product, index) => (
-                          <TableRow key={index}>
-                            <TableCell component="th" scope="row">
-                              <a
-                                className={classes.idClick}
-                                onClick={() => {
-                                  onDeleteClick(product);
-                                }}
-                              >
-                                {product.id}
-                              </a>
-                            </TableCell>
-                            <TableCell align="right">{product.name}</TableCell>
-                            <TableCell align="right">
-                              {product.productCategory.name}
-                            </TableCell>
-                            <TableCell align="right">
-                              {product.createdAt}
-                            </TableCell>
-                            <TableCell align="right">
-                              <IconButton
-                                aria-label="delete"
-                                className={classes.margin}
-                                size="small"
-                                onClick={() => {
-                                  onDeleteClick(product);
-                                }}
-                              >
-                                <DeleteIcon fontSize="inherit" />
-                              </IconButton>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                    </TableBody>
-                  </Table>
-                </Grid>
-
                 <Grid item xs={12}>
-                  <div>
+                  <div className={classes.paginationWrapper}>
                     <MuiThemeProvider theme={theme}>
                       <CssBaseline />
                       <Pagination

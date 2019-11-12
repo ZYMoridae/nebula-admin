@@ -47,7 +47,6 @@ class SkuAttributeForm extends Component {
   }
 
   addSkuAttributeOnClickHandler(skuIndex) {
-
     // this.setState({
     //   skuAttributeExpanded: !this.state.skuAttributeExpanded
     // });
@@ -87,7 +86,7 @@ class SkuAttributeForm extends Component {
             aria-controls="panel1bh-content"
             id="panel1bh-header"
           >
-            <Typography variant="subtitle2">Sku Attributes</Typography>
+            Sku Attributes
           </ExpansionPanelSummary>
           <ExpansionPanelDetails
             className={parentClasses.skuAttributePanelDetails}

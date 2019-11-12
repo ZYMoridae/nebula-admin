@@ -19,6 +19,7 @@ import TextField from "@material-ui/core/TextField";
 import AsyncSelect from "react-select/async";
 
 import "./ProductForm.css";
+import "../utils/Form.css";
 
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
@@ -88,15 +89,15 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit * 2,
     paddingLeft: theme.spacing.unit * 3,
     paddingRight: theme.spacing.unit * 3,
-    marginBottom: theme.spacing.unit * 2
+    marginBottom: theme.spacing.unit * 2,
+    marginTop: theme.spacing.unit * 2
   },
   skuAttributePanelDetails: {
     display: "block"
   },
   newButton: {
     width: "100%",
-    height: 54,
-    marginTop: theme.spacing.unit
+    height: 54
   },
   indicator: {
     backgroundColor: "#2b8eff",
@@ -396,7 +397,7 @@ class ProductForm extends Component {
       <div>
         <Grid container spacing={8}>
           <Grid item xs={12} sm={12}>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" gutterBottom className={classes.title}>
               Product
             </Typography>
           </Grid>
@@ -484,7 +485,7 @@ class ProductForm extends Component {
                     aria-controls="panel1bh-content"
                     id="panel1bh-header"
                   >
-                    <Typography variant="subtitle2">Sku</Typography>
+                    Sku
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails
                     className={classes.skuAttributePanelDetails}

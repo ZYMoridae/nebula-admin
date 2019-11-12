@@ -12,7 +12,9 @@ const styles = theme => ({
     textAlign: "center",
     borderRadius: "50%",
     lineHeight: `${theme.spacing.unit * 3}px`,
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing.unit * 1.5,
+    marginBottom: theme.spacing.unit * 1.5,
+    fontSize: "12px"
   }
 });
 

@@ -42,11 +42,73 @@ const nebulaTheme = createMuiTheme({
     },
     secondary: {
       light: "#0066ff",
-      main: "#f48fb1",
+      main: "#ff5666",
       // dark: will be calculated from palette.secondary.main,
       contrastText: "#ffffff"
     }
     // error: will use the default color
+  },
+  overrides: {
+    MuiInputBase: {
+      input: {
+        // padding: "12px !important",
+        fontSize: "12px"
+      }
+    },
+    MuiTypography: {
+      h4: {
+        fontSize: "20px"
+      },
+      subtitle2: {
+        fontSize: "12px"
+      }
+    },
+    MuiButton: {
+      label: {
+        fontSize: "12px"
+      },
+      root: {
+        marginTop: "16px",
+        maringBottom: "16px",
+        fontSize: "12px",
+        textTransform: 'none'
+      }
+    },
+    MuiMenuItem: {
+      root: {
+        fontSize: "12px"
+      }
+    },
+    MuiExpansionPanelSummary: {
+      root: {
+        marginTop: "4px",
+        backgroundColor: "#2b8eff",
+        borderRadius: "5px",
+        color: "white"
+      },
+      content: {
+        color: "white !important",
+        fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+        fontSize: "12px"
+      },
+      expanded: {
+        borderRadius: "5px 5px 0px 0px"
+      },
+      expandIcon: {
+        color: "white"
+      }
+    },
+    MuiPaper: {
+      root: {
+        borderRadius: "5px !important",
+        "&::before": {
+          backgroundColor: "transparent !important"
+        }
+      },
+      rounded: {
+        borderRadius: "5px !important"
+      }
+    }
   }
 });
 
@@ -119,13 +181,13 @@ const PaymentComponent = ({ match }) => {
   );
 };
 
-const NewProuctComponent = ({match}) => {
+const NewProuctComponent = ({ match }) => {
   return (
     <div>
       <NewProductContainer />
     </div>
-  )
-}
+  );
+};
 
 class App extends React.Component {
   render() {
@@ -145,7 +207,11 @@ class App extends React.Component {
 
               <PrivateRoute exact path="/home" component={Home} />
               <PrivateRoute exact path="/products" component={Products} />
-              <PrivateRoute exact path="/products/new" component={NewProuctComponent}/>
+              <PrivateRoute
+                exact
+                path="/products/new"
+                component={NewProuctComponent}
+              />
               <PrivateRoute
                 exact
                 path="/products/:id"

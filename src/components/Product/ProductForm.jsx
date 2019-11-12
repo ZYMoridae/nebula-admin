@@ -81,8 +81,8 @@ const styles = theme => ({
   },
   categorySelect: {
     // width: "100%",
-    marginTop: "16px",
-    height: "56px"
+    marginTop: "8px",
+    height: "43px"
   },
   skuContainer: {
     paddingTop: theme.spacing.unit * 2,
@@ -97,7 +97,7 @@ const styles = theme => ({
   },
   newButton: {
     width: "100%",
-    height: 54
+    height: 40
   },
   indicator: {
     backgroundColor: "#2b8eff",
@@ -279,7 +279,7 @@ class ProductForm extends Component {
   }
 
   addSkuOnClickHandler() {
-    if (this.state.skus.length == 0) {
+    if (!_.isNil(this.state.skus) && this.state.skus.length == 0) {
       this.setState({
         skuExpanded: true
       });
@@ -292,7 +292,7 @@ class ProductForm extends Component {
     };
 
     this.setState({
-      skus: [...this.state.skus, item]
+      skus: !Array.isArray(this.state.skus) ? [item] : [...this.state.skus, item]
     });
   }
 
@@ -472,7 +472,7 @@ class ProductForm extends Component {
           {/* SKU Block*/}
 
           <Grid item xs={12} sm={12}>
-            {this.state.skus.length > 0 ? (
+            {(!_.isNil(this.state.skus) && this.state.skus.length > 0) ? (
               <Fade in={true} timeout={1000}>
                 <ExpansionPanel
                   expanded={this.state.skuExpanded}

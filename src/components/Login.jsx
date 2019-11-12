@@ -52,7 +52,7 @@ const styles = theme => ({
     marginTop: isMobile ? "20vh" : "25vh",
     display: "flex",
     flexWrap: "wrap",
-    width: 350,
+    width: 270,
     // marginLeft: isMobile ? theme.spacing.unit * 2 : "-40vw",
     // marginRight: theme.spacing.unit * 2
   },
@@ -72,7 +72,7 @@ const styles = theme => ({
   signInCaption: {
     // fontFamily: 'Nanum Brush Script, cursive !important',
     color: theme.palette.primary.main,
-    fontSize: '25px !important',
+    fontSize: '18px !important',
     textAlign: 'center'
   },
   containerBg: {
@@ -212,7 +212,7 @@ class Login extends Component {
                     id="outlined-name"
                     label="Name"
                     name="username"
-                    className={classes.textField}
+                    // className={classes.textField}
                     margin="normal"
                     variant="outlined"
                     fullWidth={true}
@@ -226,7 +226,7 @@ class Login extends Component {
                     id="outlined-password"
                     label="Password"
                     name="password"
-                    className={classes.textField}
+                    // className={classes.textField}
                     margin="normal"
                     variant="outlined"
                     type="password"

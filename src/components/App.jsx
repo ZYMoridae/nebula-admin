@@ -53,6 +53,38 @@ const nebulaTheme = createMuiTheme({
       input: {
         // padding: "12px !important",
         fontSize: "12px"
+      },
+      inputType: {
+        height: "inherit"
+      }
+    },
+    MuiOutlinedInput: {
+      multiline: {
+        padding: "12px !important"
+      },
+      input: {
+        padding: "12px"
+      }
+    },
+    MuiFormLabel: {
+      root: {
+        fontSize: '12px'
+      }
+    },
+    MuiInputLabel: {
+      outlined: {
+        transform: 'translate(14px, 16px) scale(1)'
+      }
+    },
+    MuiPrivateTextarea: {
+      textarea: {
+        padding: "0px !important"
+      }
+    },
+    MuiFormControl: {
+      marginNormal: {
+        marginTop: '8px',
+        marginBottom: '8px'
       }
     },
     MuiTypography: {
@@ -68,8 +100,8 @@ const nebulaTheme = createMuiTheme({
         fontSize: "12px"
       },
       root: {
-        marginTop: "16px",
-        maringBottom: "16px",
+        marginTop: "8px",
+        maringBottom: "8px",
         fontSize: "12px",
         textTransform: 'none'
       }

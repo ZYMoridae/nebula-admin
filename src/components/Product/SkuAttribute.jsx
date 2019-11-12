@@ -72,12 +72,12 @@ const styles = theme => ({
   },
   newButton: {
     width: "100%",
-    height: 54,
+    height: 40,
     marginTop: theme.spacing.unit
   },
   categorySelect: {
     marginTop: "16px",
-    height: "56px"
+    height: "43px"
   }
 });
 

@@ -228,8 +228,6 @@ class ProductForm extends Component {
     } else {
       let _product = this.state;
 
-      console.log(this.state);
-
       _product.categoryId = this.state.categoryOptions.value;
 
       if (Array.isArray(_product.skus)) {
@@ -245,6 +243,8 @@ class ProductForm extends Component {
           }
         });
       }
+
+      _product.vendorId = Utils.getCurrentUser().id;
 
       delete _product.id;
 

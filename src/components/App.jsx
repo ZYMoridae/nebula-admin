@@ -28,7 +28,7 @@ import UserContainer from "../containers/user/UserContainer";
 
 const Home = () => (
   <div>
-    <UserContainer></UserContainer>
+    {/* <UserContainer></UserContainer> */}
     <HomeContainer></HomeContainer>
   </div>
 );

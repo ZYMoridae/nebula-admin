@@ -2,15 +2,16 @@ import Zjax from "../utils/zjax";
 import Utils from "../utils/Utils";
 import ActionType from "./ActionType";
 
-export const fetchAllSkuAttributeCategoryFulfill = (results) => {
+export const fetchAllSkuAttributeCategoryFulfilled = (results, totalPages) => {
   return {
     type: ActionType.SKU.ATTRIBUTE.CATEGORY.GET_ALL.FULFILLED,
     isFetchingAllSkuAttributeCategory: false,
     isFetchedAllSkuAttributeCategory: true,
-    skuAttributeCategory: results
+    skuAttributeCategories: results,
+    totalPages: totalPages,
+    receivedAt: Date.now()
   };
 };
-
 
 export const fetchAllSkuAttributeCategoryPending = () => {
   return {
@@ -29,7 +30,7 @@ export const fetchAllSkuAttributeCategoryError = error => {
   };
 };
 
-export const fetchAllSkuAttributeCategory = (keyword) => {
+export const fetchAllSkuAttributeCategory = (page, perPage, orderBy) => {
   return function(dispatch) {
     dispatch(fetchAllSkuAttributeCategoryPending());
 
@@ -38,12 +39,14 @@ export const fetchAllSkuAttributeCategory = (keyword) => {
     };
 
     Zjax.request({
-      url: `/api/skus/attributes/categories?page=0&size=10&sort=name&keyword=${keyword}`,
+      url: `/api/skus/attributes/categories?page=${page -
+        1}&size=${perPage}&sort=${orderBy}&keyword`,
       option: Utils.addToken(options),
       successCallback: response => {
         dispatch(
-          fetchAllSkuAttributeCategoryFulfill(
-            response.data._embedded.skuAttributeCategoryList
+          fetchAllSkuAttributeCategoryFulfilled(
+            response.data._embedded.skuAttributeCategoryList,
+            response.data.page.totalPages
           )
         );
       },

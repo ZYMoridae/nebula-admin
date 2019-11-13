@@ -14,38 +14,9 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import IconButton from "@material-ui/core/IconButton";
 
-import SubToolBar from "./utils/SubToolBar";
+import SubToolBar from "../../utils/SubToolBar";
 
 const styles = theme => ({
-  container: {
-    display: "flex",
-    flexWrap: "wrap"
-  },
-  textField: {},
-  dense: {
-    marginTop: 16
-  },
-  menu: {
-    width: 200
-  },
-  root: {
-    flexGrow: 1
-  },
-  paper: {
-    padding: theme.spacing.unit * 2,
-    textAlign: "center",
-    color: theme.palette.text.secondary
-  },
-  loginContainer: {
-    padding: theme.spacing.unit * 3,
-    marginTop: theme.spacing.unit * 12,
-    display: "flex",
-    flexWrap: "wrap",
-    width: 350
-  },
-  loginButton: {
-    marginTop: theme.spacing.unit * 2
-  },
   productsContainer: {
     marginLeft: theme.spacing.unit * 10,
     marginRight: theme.spacing.unit * 10,
@@ -77,14 +48,14 @@ const styles = theme => ({
   }
 });
 
-class Products extends Component {
+class Index extends Component {
   constructor(props) {
     super(props);
     this.state = { offset: 0 };
   }
 
   componentDidMount() {
-    const { fetchProductsInfo, page, perPage, orderBy } = this.props;
+    const { page, perPage, orderBy } = this.props;
     let currentOffset = (page - 1) * perPage;
     this.handleClick(currentOffset);
   }
@@ -108,22 +79,20 @@ class Products extends Component {
    * @param {*} offset
    */
   handleClick(offset) {
-    const { perPage, orderBy, fetchProductsInfo } = this.props;
+    const { perPage, orderBy, fetchAllProductCategory } = this.props;
     let page = offset / this.props.perPage + 1;
     this.setState({ offset });
     this.updateUrlParmas(page, perPage, orderBy);
-    fetchProductsInfo(page, perPage, orderBy);
+    fetchAllProductCategory(page, perPage, orderBy);
   }
 
   render() {
     const {
-      info,
+      productCategories,
       classes,
       perPage,
       totalPages,
-      page,
-      isFetchingProducts,
-      isFetchedProducts
+      fetchAllProductCategoryPending
     } = this.props;
 
     const theme = createMuiTheme({
@@ -133,24 +102,24 @@ class Products extends Component {
     });
 
     const onDeleteClick = product => {
-      window.location.href = "/products/" + product.id;
+      window.location.href = "/products/categories/" + product.id;
     };
 
     return (
       <div className={classes.productsContainer}>
         <main className={classes.content}>
-          <Grid
-            className={classes.prodcutContainer}
-          >
+          <Grid className={classes.prodcutContainer}>
             <Grid item xs={1} lg={2}></Grid>
             <Grid item xs={10} lg={12}>
-              <Grid
-              >
+              <Grid>
                 <Grid item xs={12}>
-                  <SubToolBar title="Products" href="/products/new" />
+                  <SubToolBar
+                    title="Product Category"
+                    href="/products/categories/new"
+                  />
                 </Grid>
 
-                {isFetchingProducts ? (
+                {fetchAllProductCategoryPending ? (
                   <CircularProgress />
                 ) : (
                   <Grid item xs={12}>
@@ -158,34 +127,26 @@ class Products extends Component {
                       <TableHead>
                         <TableRow>
                           <TableCell>ID</TableCell>
-                          <TableCell align="right">Name</TableCell>
-                          <TableCell align="right">Category</TableCell>
-                          <TableCell align="right">Created At</TableCell>
+                          <TableCell align="left">Name</TableCell>
                           <TableCell align="right">Action</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {Array.isArray(info) &&
-                          info.map((product, index) => (
+                        {Array.isArray(productCategories) &&
+                          productCategories.map((productCategory, index) => (
                             <TableRow key={index}>
                               <TableCell component="th" scope="row">
                                 <a
                                   className={classes.idClick}
                                   onClick={() => {
-                                    onDeleteClick(product);
+                                    onDeleteClick(productCategory);
                                   }}
                                 >
-                                  {product.id}
+                                  {productCategory.id}
                                 </a>
                               </TableCell>
-                              <TableCell align="right">
-                                {product.name}
-                              </TableCell>
-                              <TableCell align="right">
-                                {product.productCategory.name}
-                              </TableCell>
-                              <TableCell align="right">
-                                {product.createdAt}
+                              <TableCell align="left">
+                                {productCategory.name}
                               </TableCell>
                               <TableCell align="right">
                                 <IconButton
@@ -193,7 +154,7 @@ class Products extends Component {
                                   className={classes.margin}
                                   size="small"
                                   onClick={() => {
-                                    onDeleteClick(product);
+                                    onDeleteClick(productCategory);
                                   }}
                                 >
                                   <DeleteIcon fontSize="inherit" />
@@ -229,4 +190,4 @@ class Products extends Component {
   }
 }
 
-export default withStyles(styles)(Products);
+export default withStyles(styles)(Index);

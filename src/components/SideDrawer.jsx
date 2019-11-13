@@ -1,18 +1,11 @@
 import React, { Component } from "react";
-import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 
 import Drawer from "@material-ui/core/Drawer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 
 import PersonRoundedIcon from "@material-ui/icons/PersonRounded";
 import HomeRoundedIcon from "@material-ui/icons/HomeRounded";
@@ -26,40 +19,16 @@ import SchoolRoundedIcon from "@material-ui/icons/SchoolRounded";
 import CategoryRoundedIcon from "@material-ui/icons/CategoryRounded";
 import LocalGroceryStoreRoundedIcon from "@material-ui/icons/LocalGroceryStoreRounded";
 
-import KeyboardArrowRightRoundedIcon from "@material-ui/icons/KeyboardArrowRightRounded";
-
 import Constants from "../utils/Contants";
 import NebulaIcon from "../components/NebulaIcon";
+
+import _ from "lodash";
+
+import { USER, VENDOR, TEACHER, ADMIN } from "../utils/Role";
+
 const drawerWidth = Constants.styles.sidebar.width;
 
 const styles = theme => ({
-  container: {
-    backgroundColor: theme.palette.primary.footerDark,
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2
-  },
-  footerText: {
-    color: "white",
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2
-  },
-  linkContainer: {
-    textAlign: "center",
-    display: "inline-flex",
-    color: "white",
-    width: "100%"
-  },
-  linkItem: {
-    marginRight: theme.spacing.unit * 2,
-    transition: "all 0.15s",
-    color: "white",
-    textDecoration: "none",
-    "&:hover": {
-      color: theme.palette.primary.main,
-      transition: "all 0.15s",
-      textDecoration: "underline"
-    }
-  },
   drawer: {
     width: drawerWidth,
     flexShrink: 0
@@ -69,7 +38,6 @@ const styles = theme => ({
   },
   toolbar: {
     height: 64
-    // backgroundColor: '#2b8eff'
   },
   itemText: {
     fontSize: "12px",
@@ -99,11 +67,13 @@ const productBlock = [
   },
   {
     name: "Product Category",
-    icon: <CategoryRoundedIcon fontSize="small" />
+    icon: <CategoryRoundedIcon fontSize="small" />,
+    path: "/products/categories"
   },
   {
     name: "Sku Category",
-    icon: <CategoryRoundedIcon fontSize="small" />
+    icon: <CategoryRoundedIcon fontSize="small" />,
+    path: "/skus/attributes/categories"
   },
   {
     name: "Class",
@@ -134,16 +104,29 @@ class SideDrawer extends Component {
   render() {
     const { classes } = this.props;
 
-    const itemClickHandler = itemName => {
-      if (itemName == "home") {
+    const itemClickHandler = item => {
+      if (item.name == "home") {
         window.location.href = "/home";
       } else {
-        window.location.href = `/${itemName.toLowerCase()}s`;
+        if (_.isNil(item.path)) {
+          window.location.href = `/${item.name.toLowerCase()}s`;
+        } else {
+          window.location.href = item.path;
+        }
       }
     };
 
-    const checkSelected = name => {
-      return window.location.pathname.startsWith(`/${name.toLowerCase()}`);
+    //FIXME: Use regular expression check the status
+    const checkSelected = item => {
+      let isSelected = false;
+
+      if (_.isNil(item.path)) {
+        isSelected = window.location.pathname == `/${item.name.toLowerCase()}s`;
+      } else {
+        isSelected = window.location.pathname.startsWith(`${item.path}`);
+      }
+
+      return isSelected;
     };
 
     return (
@@ -161,9 +144,13 @@ class SideDrawer extends Component {
           <List>
             <ListItem
               button
-              selected={checkSelected("home")}
+              selected={checkSelected({
+                name: "Home"
+              })}
               onClick={() => {
-                itemClickHandler("home");
+                itemClickHandler({
+                  name: "Home"
+                });
               }}
             >
               <ListItemIcon>
@@ -178,10 +165,10 @@ class SideDrawer extends Component {
             {userBlock.map((item, index) => (
               <ListItem
                 button
-                selected={checkSelected(item.name)}
+                selected={checkSelected(item)}
                 key={index}
                 onClick={() => {
-                  itemClickHandler(item.name);
+                  itemClickHandler(item);
                 }}
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>
@@ -196,9 +183,9 @@ class SideDrawer extends Component {
               <ListItem
                 button
                 key={index}
-                selected={checkSelected(item.name)}
+                selected={checkSelected(item)}
                 onClick={() => {
-                  itemClickHandler(item.name);
+                  itemClickHandler(item);
                 }}
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>
@@ -212,10 +199,10 @@ class SideDrawer extends Component {
             {supportBlock.map((item, index) => (
               <ListItem
                 button
-                selected={checkSelected(item.name)}
+                selected={checkSelected(item)}
                 key={index}
                 onClick={() => {
-                  itemClickHandler(item.name);
+                  itemClickHandler(item);
                 }}
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>

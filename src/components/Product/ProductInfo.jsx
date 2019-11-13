@@ -82,34 +82,20 @@ class ProductInfo extends Component {
   }
 
   componentDidMount() {
-    const {
-      fetchProductInfo,
-      productId,
-      fetchProductComments,
-      isFetchedProductInfo
-    } = this.props;
-    // this.setState({
-    //   labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth
-    // });
+    const { fetchProductInfo, productId } = this.props;
     fetchProductInfo(productId);
-    // fetchProductComments(productId);
   }
 
   render() {
     const {
-      theme,
       classes,
       info,
-      addCartItem,
       isShowSuccessToast,
       hideSuccessToast,
-      productComments,
-      isAddingCartItem,
       fetchProductInfoError,
       isFetchedProductInfo,
       isFetchingProductInfo,
-      updateProduct,
-      createProduct
+      updateProduct
     } = this.props;
 
     let productInfoBlock = "";

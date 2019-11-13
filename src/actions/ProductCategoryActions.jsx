@@ -1,54 +1,59 @@
-import Zjax from '../utils/zjax';
-import Utils from '../utils/Utils';
-import ActionType from './ActionType';
+import Zjax from "../utils/zjax";
+import Utils from "../utils/Utils";
+import ActionType from "./ActionType";
 
 // ------ ProductCategory Action ------
-export const receieveProductCategory = (results, totalPages) => {
+export const fetchAllProductCategoryFulfilled = (results, totalPages) => {
   return {
-    type: ActionType.RECEIVE_PRODUCTCATEGORY,
-    isFetchingProductCategory: false,
-    isFetchedProductCategory: true,
-    info: results,
+    type: ActionType.PRODUCT.CATEGORY.GET_ALL.FULFILLED,
+    fetchAllProductCategoryPending: false,
+    fetchAllProductCategoryFulfilled: true,
+    productCategories: results,
     totalPages: totalPages,
     receivedAt: Date.now()
-  }
-}
+  };
+};
 
-export const fetchingProductCategory = (option, json) => {
+export const fetchAllProductCategoryPending = (option, json) => {
   return {
-    type: ActionType.FETCHING_PRODUCTCATEGORY_PENDING,
+    type: ActionType.PRODUCT.CATEGORY.GET_ALL.PENDING,
     option: option,
-    isFetchingProductCategory: true,
-    isFetchedProductCategory: false
-  }
-}
+    fetchAllProductCategoryPending: true,
+    fetchAllProductCategoryFulfilled: false
+  };
+};
 
-export const fetchingProductCategoryError = (err) => {
+export const fetchAllProductCategoryError = err => {
   return {
-    type: ActionType.FETCHING_PRODUCTCATEGORY_REJECTED,
-    isFetchingProductCategory: false,
-    isFetchedProductCategory: true
-  }
-}
+    type: ActionType.PRODUCT.CATEGORY.GET_ALL.ERROR,
+    fetchAllProductCategoryPending: false,
+    fetchAllProductCategoryFulfilled: true
+  };
+};
 
-
-export const fetchProductCategoryInfo = (page, perPage, orderBy) => {
-  return function (dispatch) {
-    dispatch(fetchingProductCategory());
+export const fetchAllProductCategory = (page, perPage, orderBy) => {
+  return function(dispatch) {
+    dispatch(fetchAllProductCategoryPending());
 
     let options = {
-      method: 'get'
+      method: "get"
     };
 
     Zjax.request({
-      url: `/api/product-categories?page=${page - 1}&size=${perPage}&sort=${orderBy}&keyword`,
+      url: `/api/product-categories?page=${page -
+        1}&size=${perPage}&sort=${orderBy}&keyword`,
       option: Utils.addToken(options),
-      successCallback: (response) => {
-        dispatch(receieveProductCategory(response.data.content, response.data.page.totalPages));
+      successCallback: response => {
+        dispatch(
+          fetchAllProductCategoryFulfilled(
+            response.data._embedded.productCategoryList,
+            response.data.page.totalPages
+          )
+        );
       },
-      failureCallback: (error) => {
-        dispatch(fetchingProductCategoryError(error));
+      failureCallback: error => {
+        dispatch(fetchAllProductCategoryError(error));
       }
     });
-  }
-}
+  };
+};

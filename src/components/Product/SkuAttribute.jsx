@@ -1,65 +1,15 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import { withStyles } from "@material-ui/core/styles";
-import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
-
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 import _ from "lodash";
-
 import "react-image-gallery/styles/css/image-gallery.css";
-
 import Paper from "@material-ui/core/Paper";
-
-import Fade from "@material-ui/core/Fade";
-
-import CircularProgress from "@material-ui/core/CircularProgress";
-
-// import ContentNotFound from "../../utils/ContentNotFound";
-import { isValid } from "ipaddr.js";
-
 import TextField from "@material-ui/core/TextField";
-
 import AsyncSelect from "react-select/async";
-
 import "./ProductForm.css";
-
-import Chip from "@material-ui/core/Chip";
-
-import AddRoundedIcon from "@material-ui/icons/AddRounded";
-
 import Indicator from "../utils/Indicator";
 
 const styles = theme => ({
-  container: {
-    backgroundColor: theme.palette.primary.footerDark,
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    marginLeft: 240
-  },
-  footerText: {
-    color: "white",
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2
-  },
-  linkContainer: {
-    textAlign: "center",
-    display: "inline-flex",
-    color: "white",
-    width: "100%"
-  },
-  linkItem: {
-    marginRight: theme.spacing.unit * 2,
-    transition: "all 0.15s",
-    color: "white",
-    textDecoration: "none",
-    "&:hover": {
-      color: theme.palette.primary.main,
-      transition: "all 0.15s",
-      textDecoration: "underline"
-    }
-  },
   textField: {
     width: "100%"
   },

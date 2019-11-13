@@ -99,18 +99,6 @@ const styles = theme => ({
     width: "100%",
     height: 40
   },
-  indicator: {
-    backgroundColor: "#2b8eff",
-    color: "white",
-    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-    fontWeight: "500",
-    height: theme.spacing.unit * 3,
-    width: theme.spacing.unit * 3,
-    textAlign: "center",
-    borderRadius: "50%",
-    lineHeight: `${theme.spacing.unit * 3}px`,
-    marginTop: theme.spacing.unit * 2
-  },
   deleteBtnIcon: {
     marginRight: theme.spacing.unit
   }

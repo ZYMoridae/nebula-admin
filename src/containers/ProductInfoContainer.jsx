@@ -54,9 +54,6 @@ const mapDispatchToProps = dispatch => {
     },
     updateProduct: product => {
       dispatch(updateProduct(product));
-    },
-    fetchAllSkuAttributeCategory: keyword => {
-      dispatch(fetchAllSkuAttributeCategory(keyword));
     }
   };
 };

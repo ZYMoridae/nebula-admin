@@ -32,7 +32,7 @@
     "chart.js": "^2.9.1",
     "css-loader": "^2.1.1",
     "i18next": "^17.0.14",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "material-ui": "^1.0.0-beta.47",
     "material-ui-flat-pagination": "^3.2.0",
     "material-ui-image": "^3.1.0",

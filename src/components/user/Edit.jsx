@@ -1,22 +1,12 @@
 import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles";
+import Fade from "@material-ui/core/Fade";
 import Grid from "@material-ui/core/Grid";
-
 import _ from "lodash";
 
-import "react-image-gallery/styles/css/image-gallery.css";
-
-import Snackbar from "@material-ui/core/Snackbar";
-import MySnackbarContent from "../MySnackbarContent";
-
-import Fade from "@material-ui/core/Fade";
-
 import CircularProgress from "@material-ui/core/CircularProgress";
-
-import ContentNotFound from "../utils/ContentNotFound";
-
 import Constants from "../../utils/Contants";
-// import ProductForm from "./ProductForm";
+import Form from "./Form";
 
 const styles = theme => ({
   container: {
@@ -67,35 +57,25 @@ const styles = theme => ({
 });
 
 class Edit extends Component {
-  constructor() {
-    super();
-    this.state = {
-      age: "",
-      name: "hai",
-      labelWidth: 0,
-      quantity: 1
-    };
-  }
-
   componentDidMount() {
-    const { fetchEdit, productId } = this.props;
-    fetchProductInfo(productId);
+    const { fetchUser, id } = this.props;
+    fetchUser(id);
   }
 
   render() {
-    const {
-      classes,
-      info,
-      isShowSuccessToast,
-      hideSuccessToast,
-      fetchProductInfoError,
-      isFetchedProductInfo,
-      isFetchingProductInfo,
-      updateProduct
-    } = this.props;
+    const { classes, user, fetchUserPending, fetchUserFulfilled } = this.props;
 
     return (
-      <div></div>
+      <Fade in={true} timeout={1000}>
+        <Grid container>
+          <Grid item xs={1} sm={1}></Grid>
+          <Grid item xs={10} sm={8} className={classes.container}>
+            {fetchUserPending && <CircularProgress />}
+            {fetchUserFulfilled && user && <Form user={user} mode="edit"></Form>}
+          </Grid>
+          <Grid item xs={1} sm={1}></Grid>
+        </Grid>
+      </Fade>
     );
   }
 }

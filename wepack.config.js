@@ -15,7 +15,10 @@ var config = {
        historyApiFallback: true,
        proxy: {
           // '/api': 'http://ec2-13-54-77-173.ap-southeast-2.compute.amazonaws.com:8080',
-          '/api': 'http://localhost:8080'
+          // ANCHOR Intellij dev mode
+          '/api': 'http://localhost:8080',
+          // ANCHOR Tomcat deployment
+          // '/api': 'http://localhost:8080/api'
        }
     },
     module: {

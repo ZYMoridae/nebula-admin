@@ -116,7 +116,7 @@ class ProductInfo extends Component {
 
     return (
       <div>
-        <Snackbar
+        {/* <Snackbar
           anchorOrigin={{
             vertical: "bottom",
             horizontal: "left"
@@ -130,7 +130,7 @@ class ProductInfo extends Component {
             variant="success"
             message="Item has been added!"
           />
-        </Snackbar>
+        </Snackbar> */}
 
         <Fade in={true} timeout={1000}>
           <Grid container>

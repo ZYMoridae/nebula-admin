@@ -1,34 +1,17 @@
 import React, { Component } from "react";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
-import Fab from "@material-ui/core/Fab";
-import HomeIcon from "@material-ui/icons/Home";
-import Slider from "react-animated-slider";
 import "react-animated-slider/build/horizontal.css";
-import ChevronLeft from "@material-ui/icons/ChevronLeft";
 import ChevronRight from "@material-ui/icons/ChevronRight";
 import Grid from "@material-ui/core/Grid";
 import Fade from "@material-ui/core/Fade";
 
-import FeaturedProduct from "../components/home/FeaturedProduct";
 import TodayDealsProduct from "../components/home/TodayDealsProduct";
 import RecommendProduct from "../components/home/RecommendProduct";
 import ContentLoader from "react-content-loader";
 import _ from "lodash";
-import IconButton from "@material-ui/core/IconButton";
 import AutorenewIcon from "@material-ui/icons/Autorenew";
 
-import Drawer from "@material-ui/core/Drawer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import { Bar } from "react-chartjs-2";
 
 import { useTranslation } from "react-i18next";
@@ -240,19 +223,11 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    const { fetchHomeBannerInfo, fetchFeaturedProducts } = this.props;
-    // fetchHomeBannerInfo();
-    // fetchFeaturedProducts(1, 4);
   }
 
   render() {
     const {
       classes,
-      info,
-      featuredProducts,
-      isFetchedProducts,
-      fetchProductsError,
-      fetchHomeBannerError
     } = this.props;
 
     const data = {

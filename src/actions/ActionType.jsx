@@ -103,6 +103,11 @@ const ActionType = {
       ERROR: "USER_GET_ALL_ERROR",
       PENDING: "USER_GET_ALL_PENDING",
       FULFILLED: "USER_GET_ALL_FULFILLED"
+    },
+    GET: {
+      ERROR: "USER_GET_ERROR",
+      PENDING: "USER_GET_PENDING",
+      FULFILLED: "USER_GET_FULFILLED"
     }
   },
   SKU: {

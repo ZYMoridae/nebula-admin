@@ -25,6 +25,7 @@ import NewProductContainer from "../containers/product/NewProductContainer";
 import ProductCategoryContainer from "../containers/product/product-category/ProductCategoryContainer";
 import SkuAttributeCategoryContainer from "../containers/sku/sku-attribute-category/SkuAttributeCategoryContainer";
 import UserContainer from "../containers/user/UserContainer";
+import EditUserContainer from "../containers/user/EditUserContainer";
 
 const Home = () => (
   <div>
@@ -95,6 +96,14 @@ const NewProuctComponent = () => {
   );
 };
 
+const EditUser = ({match}) => {
+  return (
+    <div>
+      <EditUserContainer id={match.params.id}></EditUserContainer>
+    </div>
+  )
+}
+
 class App extends React.Component {
   render() {
     return (
@@ -114,6 +123,8 @@ class App extends React.Component {
               <PrivateRoute exact path={Routes.HOME} component={Home} />
 
               <PrivateRoute exact path={Routes.USER.INDEX} component={Users} />
+
+              <PrivateRoute exact path={Routes.USER.EDIT} component={EditUser}/>
 
               <PrivateRoute
                 exact

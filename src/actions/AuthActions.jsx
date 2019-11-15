@@ -47,7 +47,7 @@ export const fetchAuthInfo = (data) => {
     }
     delete data.headers;
     Zjax.request({
-      url: '/api/sso/authorize',
+      url: '/api/sso/auth',
       option: {
         method: 'post',
         data: data,

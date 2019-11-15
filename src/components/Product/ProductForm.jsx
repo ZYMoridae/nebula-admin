@@ -93,7 +93,8 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2
   },
   skuAttributePanelDetails: {
-    display: "block"
+    display: "block",
+    marginTop: theme.spacing.unit * 2
   },
   newButton: {
     width: "100%",
@@ -164,6 +165,11 @@ class ProductForm extends Component {
     });
   }
 
+  /**
+   * Handle sku attribute change
+   * 
+   * @param {*} event 
+   */
   handleSkuAttributeChange(event) {
     let nextState = this.state.skus;
 
@@ -280,7 +286,9 @@ class ProductForm extends Component {
     };
 
     this.setState({
-      skus: !Array.isArray(this.state.skus) ? [item] : [...this.state.skus, item]
+      skus: !Array.isArray(this.state.skus)
+        ? [item]
+        : [...this.state.skus, item]
     });
   }
 
@@ -431,6 +439,7 @@ class ProductForm extends Component {
             <AsyncSelect
               className={classes.categorySelect}
               cacheOptions
+              placeholder="Please select product category..."
               loadOptions={loadOptions}
               defaultOptions
               classNamePrefix="react-select"
@@ -460,7 +469,7 @@ class ProductForm extends Component {
           {/* SKU Block*/}
 
           <Grid item xs={12} sm={12}>
-            {(!_.isNil(this.state.skus) && this.state.skus.length > 0) ? (
+            {!_.isNil(this.state.skus) && this.state.skus.length > 0 ? (
               <Fade in={true} timeout={1000}>
                 <ExpansionPanel
                   expanded={this.state.skuExpanded}

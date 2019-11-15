@@ -27,7 +27,8 @@ const styles = theme => ({
   },
   categorySelect: {
     marginTop: "16px",
-    height: "43px"
+    height: "43px",
+    marginBottom: theme.spacing.unit
   }
 });
 
@@ -133,6 +134,7 @@ class SkuAttributeForm extends Component {
             className={classes.categorySelect}
             name={`${skuIndex}_sku_${skuAttributeIndex}_category`}
             cacheOptions
+            placeholder="Please select sku category..."
             loadOptions={loadOptions}
             defaultOptions
             classNamePrefix="react-select"
